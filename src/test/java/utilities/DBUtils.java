@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class DButils {
+public class DBUtils {
 
     private static Connection connection;
     private static Statement statement;
@@ -71,8 +71,8 @@ public class DButils {
      *         name. If the query results in multiple rows and/or columns of data,
      *         only first row will be returned. The rest of the data will be ignored
      */
-    public static Map<String, Object> getRowMap(String query) {
-        return getQueryResultMap(query).get(0);
+    public static Map<String, Object> getRowMap(String query,int rowNum) {
+        return getQueryResultMap(query).get(rowNum);
     }
     /**
      *

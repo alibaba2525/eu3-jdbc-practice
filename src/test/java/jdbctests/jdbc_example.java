@@ -65,7 +65,7 @@ public class jdbc_example {
             //run query and get the result in resultset object
             ResultSet resultSet = statement.executeQuery("select * from departments");
 
-            //get the datatbase related data inside the databaseMetaData object
+            //get the database related data inside the databaseMetaData object
             DatabaseMetaData databaseMetaData = connection.getMetaData();
             System.out.println("databaseMetaData.getUserName() = " + databaseMetaData.getUserName());
             System.out.println("databaseMetaData.getDatabaseProductName() = " + databaseMetaData.getDatabaseProductName());
