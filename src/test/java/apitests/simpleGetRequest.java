@@ -67,7 +67,7 @@ public class simpleGetRequest {
     public void test4(){
 
         Response response = given().accept(ContentType.JSON)//we didn't put RestAssured here because we practiced static import top below for not writing RestAssured everytime.
-                           .when().get(hrurl);
+                           .when().get(hrurl+"/2");//for 'regions/2'
 
         Assert.assertEquals(response.getStatusCode(),200);
 
