@@ -8,6 +8,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static io.restassured.RestAssured.*;//we don't define every test case RestAssured with the help of this static import
@@ -58,6 +59,30 @@ public class SpartanTestWithPath {
         assertEquals(gender,"Female");
         assertEquals(phone,3312820936l);
 
+    }
 
+    @Test
+    public void getAllSpartanWithPath(){
+        Response response = given().accept(ContentType.JSON)
+                .when().get("api/spartans");
+
+        assertEquals(response.statusCode(),200);
+        assertEquals(response.contentType(),"application/json;charset=UTF-8");
+
+        int firstId = response.path("id[0]");
+        String firstName = response.path("name[0]");
+
+        String lastFirstName = response.path("name[-1]");//this is the structure for last index (Gpath structure in json)
+        int lastId = response.path("id[-1]");//this is the structure for last index (Gpath structure in json)
+
+        //all names of spartans
+        List<String> names = response.path("name");
+        System.out.println(names);
+
+        //all phones
+        List<Object> phones = response.path("phone");
+        for (Object phone : phones) {
+            System.out.println(phone);
+        }
     }
 }

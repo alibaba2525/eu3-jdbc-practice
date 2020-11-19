@@ -40,4 +40,17 @@ public class hrApiParametersTest {
 
         assertTrue(response.body().asString().contains("United States of America"));
     }
+
+    @Test
+    public void test2(){
+        Response response = given().accept(ContentType.JSON)
+                .and().queryParam("q", "{\"job_id\":\"IT_PROG\"}")
+                .when().get("/employees");
+
+        assertEquals(response.statusCode(),200);
+        assertEquals(response.contentType(),"application/json");
+
+
+    }
+
 }
