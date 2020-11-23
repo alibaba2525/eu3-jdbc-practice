@@ -92,6 +92,38 @@ public class HW1 {
     @Test
     public void tc3(){
 
+        Response response = given().accept(ContentType.JSON)
+                .and().queryParam("q", "{\"region_id\":3}")
+                .when().get("/countries");
+
+        assertEquals(response.statusCode(),200);
+        assertEquals(response.contentType(),"application/json");
+
+        JsonPath jsonPath = response.jsonPath();
+
+        List<Object> regionIDs = jsonPath.getList("items.findAll {it.region_id==3}.region_id");
+        for (Object regionID : regionIDs) {
+            assertEquals(regionID,3);
+        }
+
+        assertEquals(jsonPath.getInt("count") , 6);
+        assertEquals(jsonPath.getBoolean("hasMore") , false);
+
+        List<String> actualCountryNames = jsonPath.getList("items.country_name");
+
+        List<String> expectedCountryNames = new ArrayList<>();
+        expectedCountryNames.add("Australia");
+        expectedCountryNames.add("China");
+        expectedCountryNames.add("India");
+        expectedCountryNames.add("Japan");
+        expectedCountryNames.add("Malaysia");
+        expectedCountryNames.add("Singapore");
+
+
+        assertEquals(actualCountryNames , expectedCountryNames);
+        System.out.println(actualCountryNames);
+        System.out.println(expectedCountryNames);
+
     }
 
 
