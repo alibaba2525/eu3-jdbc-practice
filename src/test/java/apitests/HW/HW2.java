@@ -44,4 +44,62 @@ public class HW2 {
 
 
     }
+
+    @Test
+    public void tc2(){
+
+        Response response = given().accept(ContentType.JSON)
+                .and().queryParam("gender", "Female")
+                .and().queryParam("nameContains", "r")
+                .when().get("/api/spartans/search");
+
+        assertEquals(response.statusCode(),200);
+        assertEquals(response.contentType(),"application/json;charset=UTF-8");
+
+        JsonPath jsonPath = response.jsonPath();
+
+        List<String> genders = jsonPath.getList("content.gender");
+        for (String gender : genders) {
+            assertEquals(gender , "Female");
+        }
+
+        List<String> names = jsonPath.getList("content.name");
+        for (String name : names) {
+            assertTrue(name.toLowerCase().contains("r"));
+        }
+
+        assertEquals(jsonPath.getInt("size") , 20);
+        assertEquals(jsonPath.getInt("totalPages") , 1);
+
+        assertEquals(jsonPath.getBoolean("sort.sorted") , false);
+
+
+    }
+
+    @Test
+    public void tc3(){
+        Response response = given().accept(ContentType.JSON)
+                .when().get("/api/spartans/search");
+
+        assertEquals(response.statusCode(),200);
+        assertEquals(response.contentType(),"application/json;charset=UTF-8");
+
+        JsonPath jsonPath = response.jsonPath();
+
+        //print the name which is 'Fidole'
+        String name = jsonPath.getString("content.findAll {it.name==\"Fidole\"}.name");
+        System.out.println(name);
+
+        //print the names which starts with 'M' and genders of the names should be 'Female' :
+        List<String> namesStartsWithM = jsonPath.getList("content.findAll {it.name.startsWith(\"M\") && it.gender.equals(\"Female\")}.name");
+        System.out.println(namesStartsWithM);
+
+    }
+
+
+
+
+
+
+
 }
