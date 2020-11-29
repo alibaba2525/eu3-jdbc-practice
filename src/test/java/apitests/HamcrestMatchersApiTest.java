@@ -13,12 +13,14 @@ import java.util.List;
 
 import static io.restassured.RestAssured.*;
 import static org.hamcrest.core.IsEqual.equalTo;
+import static org.hamcrest.core.IsIterableContaining.hasItems;
 import static org.hamcrest.core.IsNull.notNullValue;
 import static org.testng.Assert.*;
 
 public class HamcrestMatchersApiTest { //Hamcrest-Matchers is coming with RestAssured Library
                                       //This is another way to do verification with response and json body
                                       //And also known as chaining request and response way !
+                                      //For assertion; we do in chaining methods, not with regular way!!
 
 
     /*
@@ -48,6 +50,7 @@ public class HamcrestMatchersApiTest { //Hamcrest-Matchers is coming with RestAs
                 "phone",equalTo(1938695106));
     }
 
+
     @Test
     public void teacherData(){
         given().accept(ContentType.JSON)
@@ -66,9 +69,17 @@ public class HamcrestMatchersApiTest { //Hamcrest-Matchers is coming with RestAs
                 .log().all();
     }
 
+
     @Test
     public void teacherWithDepartments(){
 
+
+        given().accept(ContentType.JSON)
+                .and().pathParam("name","Computer")
+                .when().log().all().get("http://api.cybertektraining.com/teacher/department/{name}")
+                .then().statusCode(200).and()
+                .contentType(equalTo("application/json;charset=UTF-8")).and()
+                .body("teachers.firstName",hasItems("Alexander","Marteen"));
     }
 
 }
