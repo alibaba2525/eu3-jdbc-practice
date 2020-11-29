@@ -67,7 +67,7 @@ public class HamcrestMatchersApiTest { //Hamcrest-Matchers is coming with RestAs
     }
 
     @Test
-    public void test3(){
+    public void teacherWithDepartments(){
 
     }
 

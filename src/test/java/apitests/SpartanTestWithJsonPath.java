@@ -47,7 +47,7 @@ public class SpartanTestWithJsonPath {
 
 
         //NOTES:
-//        there are multiple different ways of navigating through json body/payload
+//        there are multiple different ways of navigating through json body and response
 //                -using path() method
 //                -using JsonPath
 //                -using Hamcrest Matchers way
