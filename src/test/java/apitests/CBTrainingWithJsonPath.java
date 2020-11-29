@@ -46,6 +46,7 @@ public class CBTrainingWithJsonPath {
         String city = jsonPath.getString("students.company[0].address.city");
         assertEquals(city , "Chicago");
 
+
         //assigning list-array to String; with jsonPath it allows and just returns the array in toString-array structure
                                        //but path() doesn't allow and gives error that's why commented out down below!
            //with jsonPath
