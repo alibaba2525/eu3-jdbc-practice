@@ -7,6 +7,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import utilities.ConfigurationReader;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
@@ -31,7 +32,14 @@ public class jsonToJavaCollection {  // Di-serialization way(4th way) of dealing
 
         //we will convert json response to java map
         Map<String,Object> jsonDataMap = response.body().as(Map.class);
-        System.out.println(jsonDataMap);
+        System.out.println("jsonDataMap = " + jsonDataMap);
 
+        String name = (String) jsonDataMap.get("name");
+        assertEquals(name,"Meta");
+
+        BigDecimal phone = new BigDecimal(String.valueOf(jsonDataMap.get("phone")));
+        //phone data was coming as different value with decimal that's why we used this BigDecimal class
+
+        System.out.println("phone = " + phone);
     }
 }
