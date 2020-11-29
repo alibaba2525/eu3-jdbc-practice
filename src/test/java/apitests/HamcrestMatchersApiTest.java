@@ -53,16 +53,22 @@ public class HamcrestMatchersApiTest { //Hamcrest-Matchers is coming with RestAs
         given().accept(ContentType.JSON)
                 .and().pathParam("id",8261)
                 .when().log().all().get("http://api.cybertektraining.com/teacher/{id}")
+
                 .then().assertThat().statusCode(200)
-                .and().contentType(equalTo("application/json;charset=UTF-8"))
+                .and().contentType(equalTo("application/json"))
                 .and().header("Content-Length",equalTo("240"))
                 .and().header("Connection",equalTo("Keep-Alive"))
                 .and().header("Date",notNullValue())
                 .and().assertThat().body("teachers.firstName[0]",equalTo("James"),
                 "teachers.lastName[0]",equalTo("Bond"),
                 "teachers.gender[0]",equalTo("Male"))
-                .log().all()
-        ;
+
+                .log().all();
+    }
+
+    @Test
+    public void test3(){
+
     }
 
 }

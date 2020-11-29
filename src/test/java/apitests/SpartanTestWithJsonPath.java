@@ -47,9 +47,10 @@ public class SpartanTestWithJsonPath {
 
 
         //NOTES:
-//        there are multiple different ways of navigationg through json body/payload
+//        there are multiple different ways of navigating through json body/payload
 //                -using path() method
 //                -using JsonPath
+//                -using Hamcrest Matchers way
 //                -using deseralization to collection
 //                -using desearalization to Java Custom Classes(POJO)
 
