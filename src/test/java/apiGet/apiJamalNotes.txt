@@ -49,7 +49,7 @@ check one by one and when region_id equals to 2
 
 Response Validations
     so far, we send all request and stored responses into Response object, then did validations(status code,header,body)
-    we can also do all of those actions in sinle statement by Hamcrest Mathers.
+    we can also do all of those actions in single statement by Hamcrest Matchers.
     if we are getting one value we can use equalTo("expectedValue") method.
     for working with multiple values we have hasItems("value1","value2",.."valueN") method
 
@@ -70,9 +70,9 @@ VERIFY RESPONSE BODY/PAYLOAD
         JsonPath jsonPath = response.jsonPath();
         assertEquals(json.getString("gender"),"Male")
 
-4.Hamcrest Mathcers with chaining restassured methods.
+4.Hamcrest Matchers with chaining restassured methods.
     we can do assertions in single statement by chaining method in RestAssured.
-    to find values in the body, we us the sam path syntax(Gpath syntax).
+    to find values in the body, we use the same path syntax(Gpath syntax).
     then we use hamcrest matchers assertions to do validation
          .and().assertThat().body("id",equalTo(15),
                 "name",equalTo("Meta"),
@@ -87,13 +87,84 @@ response body() --> java collection
     "gender": "Female",
     "phone": 1938695106
 }
-    Map<String,Object> jsonDataMap = response.body().as(Map.class);
+    Map<String,Object> jsonDataMap = response.body().as(Map.class); (we put Gson or Jackson dependency to pom for this way!)
 
 
     //INTERVIEW QUESTION-WHAT ARE THEY AND HOW TO USE:
-    - De-serialization --> convertion your JSON to Java Collection!!!!!
-    - Serialization --> convertiong your Java Collection to JSON !!!!!
+    - De-serialization --> converting your JSON to Java Collection!!!!! (with get request we may use)
+    - Serialization --> converting your Java Collection to JSON !!!!! (with post request we may use)
 
 
-6.
+6.JSON to POJO(Custom class)
+POJO --> Plain Old Java Object
+{
+    "schoolName":"Cybertek",
+    "city":"McLean",
+    "state":"VA"
+}
+public class School{
+
+        private String schoolName;
+        private String city;
+        private String state;
+        //getters and setters
+        //constructor
+}
+School school1 = response.body().as(School.class);
+assertEquals(school1.getCity(),"McLean");
+school1.getState() ---> VA
+@SerializedName("region_id") --> this annocation can be used while creating pojo classes and if instance variable name is different from json key name, it will map the json to your variable.
+
+=============================================
+
+POST METHOD
+
+PART OF POST REQUEST
+    -BaseURL+Endpoint
+    -Request JSON BODY
+        {
+             "gender": "Male",
+             "name": "MikeSmith",
+             "phone": 1231232133
+        }
+    -headers
+            -Accept,application/json --> hey api, I want json response from you.
+            -Content-Type --> hey api, I am SENDING JSON BODY to you.
+            -Auth(if we any)
+POST successful status code is 201
+PART OF POST RESPONSE
+    -status code --> most of the time 201 created
+    -headers --> custom header to verify or Content type(similar to get)
+    -body
+        -some succesfful message to show we post correctly
+        -same data that we send mos of the time
+
+================================
+
+HTTP REQUESTS
+GET --> retrieve, read data
+POST --> create, insert data
+PUT --> update the existing records, data in api
+PATCH --> partial update of existing data
+DELETE --> remove records from api
+WHAT IS DIFFERENCE BETWEEN PUT AND POST ?
+    we use POST method to create data in api for the FIRST TIME.Adding new students,customers,teachers,spartans
+    if we want to UPDATE existing data from api, we use PUT METHOD.
+POST returns 201 most of the time (%99)
+PUT might be 200 or 204 (up to developers)
+WHAT IS DIFFERENCE BETWEEN PUT AND PATCH ?
+When we ure using PUT method, we have to send all parameters such as name,gender,phone even if we only
+update one of them, but if we use PATCH we can only send the parameters(json key) that we want to update, we DO NOT
+need to send rest of the keys.
+===========================================
+
+AUTHENTICATION and AUTHORIZATION
+AUTHENTICATION --> verifies if you are who you say you are.
+AUTHORIZATION --> verifies if you have access/permission to certian API/actions.
+401 --> invalid crendentials, api doesnt know who you are
+403 --> valid credentials but not enough access level/permission to do action
+Spartan we have basic auth, other populer types of autharizations is OAuth1 or 2 , bearer etc..
+copy paste following link to postman and send get request to get accesstoken;
+https://cybertek-reservation-api-qa2.herokuapp.com/sign?email=sbirdbj@fc2.com&password=asenorval
+
 

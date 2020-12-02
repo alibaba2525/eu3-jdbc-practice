@@ -1,4 +1,4 @@
-package apitests;
+package apiGet;
 
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;

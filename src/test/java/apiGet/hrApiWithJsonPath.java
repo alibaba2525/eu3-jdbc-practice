@@ -1,4 +1,4 @@
-package apitests;
+package apiGet;
 
 import io.restassured.http.ContentType;
 import io.restassured.path.json.JsonPath;
@@ -10,7 +10,6 @@ import utilities.ConfigurationReader;
 import java.util.List;
 
 import static io.restassured.RestAssured.*;
-import static org.testng.Assert.*;
 
 public class hrApiWithJsonPath {
 

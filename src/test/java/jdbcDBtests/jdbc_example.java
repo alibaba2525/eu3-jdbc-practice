@@ -1,10 +1,8 @@
-package jdbctests;
+package jdbcDBtests;
 
 import org.testng.annotations.Test;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
 
 public class jdbc_example {
 

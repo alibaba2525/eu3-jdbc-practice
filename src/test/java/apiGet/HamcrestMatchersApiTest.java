@@ -1,21 +1,12 @@
-package apitests;
+package apiGet;
 
-import io.restassured.RestAssured.*;
 import io.restassured.http.ContentType;
-import io.restassured.path.json.JsonPath;
-import io.restassured.response.Response;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-import utilities.ConfigurationReader;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import static io.restassured.RestAssured.*;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.hamcrest.core.IsIterableContaining.hasItems;
 import static org.hamcrest.core.IsNull.notNullValue;
-import static org.testng.Assert.*;
 
 public class HamcrestMatchersApiTest { //Hamcrest-Matchers is coming with RestAssured Library
                                       //This is another way to do verification with response and json body
@@ -61,7 +52,7 @@ public class HamcrestMatchersApiTest { //Hamcrest-Matchers is coming with RestAs
                 .and().contentType(equalTo("application/json"))
                 .and().header("Content-Length",equalTo("240"))
                 .and().header("Connection",equalTo("Keep-Alive"))
-                .and().header("Date",notNullValue())
+                .and().header("Date",notNullValue())//always changing that's why we just verify if it is not null
                 .and().assertThat().body("teachers.firstName[0]",equalTo("James"),
                 "teachers.lastName[0]",equalTo("Bond"),
                 "teachers.gender[0]",equalTo("Male"))
@@ -77,9 +68,10 @@ public class HamcrestMatchersApiTest { //Hamcrest-Matchers is coming with RestAs
         given().accept(ContentType.JSON)
                 .and().pathParam("name","Computer")
                 .when().log().all().get("http://api.cybertektraining.com/teacher/department/{name}")
-                .then().statusCode(200).and()
-                .contentType(equalTo("application/json;charset=UTF-8")).and()
-                .body("teachers.firstName",hasItems("Alexander","Marteen"));
+
+                .then().statusCode(200)
+                .and().contentType(equalTo("application/json;charset=UTF-8"))
+                .and().body("teachers.firstName",hasItems("Alexander","Marteen"));
     }
 
 }

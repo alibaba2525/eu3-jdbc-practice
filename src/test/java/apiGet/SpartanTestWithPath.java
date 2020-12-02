@@ -1,15 +1,11 @@
-package apitests;
+package apiGet;
 
-import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
-import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import static io.restassured.RestAssured.*;//we don't define every test case RestAssured with the help of this static import
 import static org.testng.Assert.*;

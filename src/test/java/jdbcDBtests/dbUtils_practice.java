@@ -1,4 +1,4 @@
-package jdbctests;
+package jdbcDBtests;
 
 import org.testng.annotations.Test;
 import utilities.DBUtils;
