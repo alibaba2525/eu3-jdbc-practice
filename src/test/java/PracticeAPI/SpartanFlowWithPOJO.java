@@ -17,8 +17,7 @@ import static io.restassured.RestAssured.*;
 import static org.hamcrest.Matchers.*;
 import static org.testng.Assert.*;
 
-public class SpartanFlow {
-
+public class SpartanFlowWithPOJO {
 
     int id;
 
@@ -31,35 +30,38 @@ public class SpartanFlow {
 
     @Test(priority = 1)
     public void POSTNewSpartan(){
-        Map<String,Object> putMap = new HashMap<>();
-        putMap.put("name","Mike");
-        putMap.put("gender","Male");
-        putMap.put("phone",1234567891);
+        SpartanPOJO spartanPOJO = new SpartanPOJO();
+        spartanPOJO.setName("Mike");
+        spartanPOJO.setGender("Male");
+        spartanPOJO.setPhone(1234567891l);
 
         Response response = given().accept(ContentType.JSON)
                 .and().contentType(ContentType.JSON)
 
-                .when().body(putMap).post("/api/spartans");
+                .when().body(spartanPOJO).post("/api/spartans");
 
-        assertEquals(response.statusCode() , 201);
+        assertEquals(response.statusCode(), 201);
 
-       id = response.path("data.id");
+        id = response.path("data.id");
+
+
 
     }
 
     @Test(priority = 2)
     public void PUTExistingSpartan(){
-        Map<String,Object> putMap = new HashMap<>();
-        putMap.put("name","Jack");
-        putMap.put("gender","Male");
-        putMap.put("phone",1234567891);
+        SpartanPOJO spartanPOJO = new SpartanPOJO();
+        spartanPOJO.setName("Jack");
+        spartanPOJO.setGender("Male");
+        spartanPOJO.setPhone(1234567891l);
 
-                given().contentType(ContentType.JSON)
-                        .and().pathParam("id",id)
+        given().contentType(ContentType.JSON)
+                .and().pathParam("id",id)
+                .when().body(spartanPOJO).put("/api/spartans/{id}")
 
-                        .when().body(putMap).put("/api/spartans/{id}")
+                .then().assertThat().statusCode(204);
 
-                        .then().assertThat().statusCode(204);
+
 
     }
 
@@ -68,12 +70,12 @@ public class SpartanFlow {
         Map<String,Object> patchMap = new HashMap<>();
         patchMap.put("name","Alan");
 
-               given().contentType(ContentType.JSON)
-                       .and().pathParam("id",id)
+        given().contentType(ContentType.JSON)
+                .and().pathParam("id",id)
 
-                      .when().body(patchMap).patch("/api/spartans/{id}")
+                .when().body(patchMap).patch("/api/spartans/{id}")
 
-                      .then().assertThat().statusCode(204);
+                .then().assertThat().statusCode(204);
 
 
     }
@@ -82,12 +84,14 @@ public class SpartanFlow {
     public void GETThatSpartan(){
 
         given().accept(ContentType.JSON)
-                .pathParam("id",id)
+                .and().pathParam("id",id)
 
                 .when().get("/api/spartans/{id}")
 
                 .then().assertThat().statusCode(200)
                 .and().assertThat().body("name",equalTo("Alan"));
+
+
 
     }
 
@@ -100,17 +104,20 @@ public class SpartanFlow {
 
                 .then().assertThat().statusCode(204);
 
+
     }
 
     @Test(priority = 6)
     public void AfterDeleteGETThatSpartan(){
 
         given().accept(ContentType.JSON)
-                .pathParam("id",id)
+                .and().pathParam("id",id)
 
                 .when().get("/api/spartans/{id}")
 
                 .then().assertThat().statusCode(404);
+
+
     }
 
 }
